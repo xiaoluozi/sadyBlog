@@ -130,6 +130,118 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/15/js数据类型/">js数据类型</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/15/js数据类型/" class="archive-article-date">
+  	<time datetime="2019-03-15T14:38:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>js数据类型<br>6中原始类型：<br>String、Number、Boolean、Symbol(es6新增)、Null、Undefined</p>
+<p>&amp; Object</p>
+<p>由于之前对Symbol不太了解，所以单独讲一下<br>每个从Symbol()返回的symbol值都是唯一的。一个symbol值能作为对象属性的标识符；这是该数据类型仅有的目的。<br>eg: let s = Symbol();<br>    typeof s<br>    //‘symbol’<br>    let o = Symbol();<br>    a !== o //true<br>Symbol函数可以接受一个字符串作为参数，表示对Symbol实例的描述<br>eg: let s1 = Symbol(‘foo’);<br>    let s2 = Symbol(‘bar’);</p>
+<pre><code>s1 //Symbol(foo)
+s2 //Symbol(bar)
+
+s1.toString() //&quot;Symbol(foo)&quot;
+s2.toString() //&quot;Symbol(bar)&quot;
+</code></pre><p>添加描述的目的是为了输出能够分清，可以方便我们调试</p>
+<p>Symbol值作为对象属性名时，不能用点运算符。<br>在对象的内部，使用Symbol值定义属性时，Symbol值必须放在方括号之中</p>
+<p>属性名的遍历<br>symbol作为属性名，该属性不会出现在for …in, for …of循环中，也不会被Object.keys(), Object.getOwnPrototypeNames(), JSON.striingify()返回，但是它也不是私有属性，有一个Object.getOwnPropertySymbols方法，可以获取指定对象的所有Symbol属性名。</p>
+<p>Symbol可以通过String(sym)或者sym.toString()转为字符串，也可以通过Boolean(sym)转为布尔值</p>
+<p>方法：<br>Symbol.for(key)<br>使用给定的key搜索现在的symbol, 如果找到则返回该symbol。否则将使用给定的key在全局symbol注册表中创建一个新的symbol<br>eg:    let s1 = Symbol.for(‘foo’);<br>    let s2 = Symbol.for(‘foo’);<br>    s1 === s2; //true<br>Symbol.for()与Symbol()这两种写法，都会生成新的Symbol。它们的区别是，前者会被登记在全局环境中供搜索，后者不会</p>
+<p>Symbol.keyFor(sym)<br>从全局的symbol注册表中，为给定的symbol检索一个共享的?symbol key。<br>eg: let s1 = Symbol.for(‘foo’);<br>    Symbol.keyFor(s1) //‘foo’</p>
+<pre><code>let s2 = Symbol(&apos;foo&apos;);
+Symbol.keyFor(s2) //undefined
+//变量s2属于未登记的Symbol值，所以返回undefined
+</code></pre><p>判断js数据类型的方法</p>
+<ol>
+<li>typeof<br> 类型                结果<br> Undefined            “undefined”<br> Null                “object”<br> Boolean                “boolean”<br> Number                “number”<br> String                “string”<br> Symbol                “symbol”<br> 函数对象             “function”<br> 任何其它对象          “object”<br>typeof操作符返回一个字符串，表示未经计算的操作数的类型<br>var str = new String(‘String’);<br>var num = new Number(100);</li>
+</ol>
+<p>typeof str; //‘object’<br>typeof num;    //‘object’</p>
+<p>var func = new Function();<br>typeof func;</p>
+<ol start="2">
+<li>instanceof<br>instanceof运算符用于测试构造函数的prototype属性是否出现在对象的原型链中的任何位置<br>object instanceof constructor<br>object: 要检测的对象<br>constructor: 某个构造函数</li>
+</ol>
+<p>instanceof运算符用来检测constructor.prototype是否存在于参数object的原型链上。</p>
+<p>缺点：<br>    1.对于基本类型，字面量方式创建出来的结果和实例方式创建的有一定区别<br>        eg:<br>        1 instanceof Number //false<br>        new Number(1) instanceof Number //true<br>    2.只要在当前实例的原型链上，我们用其检测出来的都是true。<br>        在类的原型继承中，我们最后检测出来的结果未必准确。<br>        eg:    [] instanceof Array;    //true<br>            [] instanceof Object;    //true<br>        instanceof能够正确判断[] 是Array的实例对象，但不能辨别[] 不是Object的实例对象<br>        why???<br>            [].<strong>proto</strong> ——&gt; Array.prototype.<strong>proto</strong> ——&gt; Object.prototype.<strong>proto</strong> ——&gt; null<br>    3.不能检测null和undefined<br>        对于特殊的数据类型null和undefined，他们的所属类是Null和Undefined,但是浏览器把这两个类保护起来了，不允许我们在外面访问使用<br>        null instanceof null //ReferenceError<br>        undefined instanceof undefined  //ReferenceError</p>
+<ol start="3">
+<li>严格运算符 ===<br> 判断null和undefined</li>
+<li>constructor<br> constructor可以处理基本数据类型的检测<br> eg: Array, RegExp, Number<br> 缺点：<pre><code>1.不能判断null和undefined
+2.函数的constructor不稳定，如果把类的原型进行重写，在重写的过程中很有可能把之前的constructor覆盖，这样检测出来的结果不准确
+eg:
+    function Fn(){}
+    Fn.prototype = new Array()
+    var f = new Fn
+    f.constructor //Array
+</code></pre>5.Object.prototype.toString.call()<br> Object.prototype.toString.call(‘’) ;   // [object String]<br> Object.prototype.toString.call(1) ;    // [object Number]<br> Object.prototype.toString.call(true) ; // [object Boolean]<br> Object.prototype.toString.call(undefined) ; // [object Undefined]<br> Object.prototype.toString.call(null) ; // [object Null]<br> Object.prototype.toString.call(new Function()) ; // [object Function]<br> Object.prototype.toString.call(new Date()) ; // [object Date]<br> Object.prototype.toString.call([]) ; // [object Array]<br> Object.prototype.toString.call(new RegExp()) ; // [object RegExp]<br> Object.prototype.toString.call(new Error()) ; // [object Error]<br> Object.prototype.toString.call(document) ; // [object HTMLDocument]<br> Object.prototype.toString.call(window) ; //[object global] window是全局对象global的引用</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/15/js数据类型/">read more >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-source命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -365,11 +477,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">linux命令</a>
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">linux命令</a>
               </li>
             
             <div class="clearfix"></div>
