@@ -130,6 +130,200 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Promise-all的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/20/Promise-all的实现/">Promise.all的实现</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/20/Promise-all的实现/" class="archive-article-date">
+  	<time datetime="2019-03-20T12:55:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>es6出现一个特别方便我们异步的操作<br>Promise.all([promise1, promise2, promise3]).then().catch(){}</p>
+<pre>
+function promiseAll(proArr) {
+    let aResult =[];
+    return new Promise((resolve, reject) => {
+        if (!isArray(proArr)) {
+            return reject(new TypeError('arguments must be an array'));
+        }
+
+        var i = 0;
+        function next() {
+            proArr[i].then((res) => {
+                aResult.push(res);
+                i++;
+                if(i == proArr.length) {
+                    resolve(aResult)
+                }else {
+                    next();
+                }
+            }).catch((e) => {
+                reject(e);
+            })
+        }
+    })
+}
+</pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">es6</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/20/Promise-all的实现/">read more >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-拆分数组中的数组项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/20/拆分数组中的数组项/">拆分数组中的数组项</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/20/拆分数组中的数组项/" class="archive-article-date">
+  	<time datetime="2019-03-20T12:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>把一个这样的数组[1,[2,5,6,[6,7,8]],9,7] 把其中数组项胃数组的内容拆分成 [1,2,5,6,6,7,8,9,7]</p>
+<pre>
+var arr = [1,[2,5,6,[6,7,8]],9,7];
+
+function arrchange(arr, res) {
+    var res = res || [];
+    arr.forEach( (o) => {
+        if(Array.isArray(o)) {
+            arrchange(o, res)
+        }else {
+            res.push(o)
+        }
+    });
+    return res;
+}
+
+console.log(arrchange(arr));
+</pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">js数组</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/20/拆分数组中的数组项/">read more >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -137,13 +331,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/15/js数据类型/">js数据类型</a>
+      <a class="article-title" href="/2018/03/15/js数据类型/">js数据类型</a>
     </h1>
   
 
         
-        <a href="/2019/03/15/js数据类型/" class="archive-article-date">
-  	<time datetime="2019-03-15T14:38:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-15</time>
+        <a href="/2018/03/15/js数据类型/" class="archive-article-date">
+  	<time datetime="2018-03-15T14:38:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
 </a>
         
       </header>
@@ -296,7 +490,7 @@ instanceof运算符用来检测constructor.prototype是否存在于参数object�
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/15/js数据类型/">read more >></a>
+          <a class="article-more-a" href="/2018/03/15/js数据类型/">read more >></a>
         </p>
       
 
@@ -333,13 +527,13 @@ instanceof运算符用来检测constructor.prototype是否存在于参数object�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/12/source命令/">source命令</a>
+      <a class="article-title" href="/2018/03/12/source命令/">source命令</a>
     </h1>
   
 
         
-        <a href="/2019/03/12/source命令/" class="archive-article-date">
-  	<time datetime="2019-03-12T13:13:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
+        <a href="/2018/03/12/source命令/" class="archive-article-date">
+  	<time datetime="2018-03-12T13:13:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-12</time>
 </a>
         
       </header>
@@ -372,7 +566,7 @@ instanceof运算符用来检测constructor.prototype是否存在于参数object�
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/12/source命令/">read more >></a>
+          <a class="article-more-a" href="/2018/03/12/source命令/">read more >></a>
         </p>
       
 
@@ -409,13 +603,13 @@ instanceof运算符用来检测constructor.prototype是否存在于参数object�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/08/first/">first</a>
+      <a class="article-title" href="/2018/03/08/first/">first</a>
     </h1>
   
 
         
-        <a href="/2019/03/08/first/" class="archive-article-date">
-  	<time datetime="2019-03-08T05:00:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-08</time>
+        <a href="/2018/03/08/first/" class="archive-article-date">
+  	<time datetime="2018-03-08T05:00:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-08</time>
 </a>
         
       </header>
@@ -446,7 +640,7 @@ instanceof运算符用来检测constructor.prototype是否存在于参数object�
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/08/first/">read more >></a>
+          <a class="article-more-a" href="/2018/03/08/first/">read more >></a>
         </p>
       
 
@@ -561,11 +755,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">js数组</a>
               </li>
              
               <li class="article-tag-list-item">
